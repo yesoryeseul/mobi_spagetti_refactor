@@ -2,24 +2,27 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { DialLogState, useDiaLogStore } from "../contexts/DialogProvider";
 import { useSearchParams } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
 import PageNation from "../components/pagenation/Pagenation";
+import { FetchApi } from "../apis/api";
 
-// const LIMIT_TAKE = 10;
+const LIMIT_TAKE = 10;
 const PostListPage = () => {
   const [params] = useSearchParams();
   const [postList, setPostList] = useState([]);
   const [, setDiaLogAttribute] = useDiaLogStore();
 
-  // useFetch 커스텀 훅
-  useFetch("/api/posts", params, setPostList, "Posts");
   const fetchPostList = async () => {
-    const response = await axios.get("/api/posts", {
-      params: {
-        take: params.get("take") ?? LIMIT_TAKE,
-      },
-    });
-    setPostList(response.data.Posts);
+    try {
+      const response = await FetchApi.fetchData({
+        url: "posts",
+        params: {
+          take: params.get("take") ?? LIMIT_TAKE,
+        },
+      });
+      setPostList(response.data.Posts);
+    } catch (error) {
+      console.error("Error fetching post detail:", error);
+    }
   };
 
   useEffect(() => {

@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import PostPageNation from "../components/pagenation/Pagenation";
-import useFetch from "../hooks/useFetch";
 import usePrev from "../hooks/usePrev";
 import { FetchApi } from "../apis/api";
 import PageNation from "../components/pagenation/Pagenation";
